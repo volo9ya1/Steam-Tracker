@@ -1,123 +1,127 @@
-// Логика переключения экранов (как в приложении погоды)
+// Переключение экранов (приложение погоды стиль)
 const navButtons = document.querySelectorAll('.nav-btn');
 const tabPanes = document.querySelectorAll('.tab-pane');
 
 navButtons.forEach(button => {
     button.addEventListener('click', () => {
-        // Убираем активный класс у всех кнопок и экранов
         navButtons.forEach(btn => btn.classList.remove('active'));
         tabPanes.forEach(pane => pane.classList.remove('active'));
 
-        // Активируем нажатую кнопку
         button.classList.add('active');
-
-        // Находим и показываем целевой экран
         const targetId = button.getAttribute('data-target');
         document.getElementById(targetId).classList.add('active');
     });
 });
 
-// Логика работы со Steam API
 const gamesContainer = document.getElementById('gamesContainer');
 const regionSelect = document.getElementById('regionSelect');
 const searchInput = document.getElementById('searchInput');
 const searchBtn = document.getElementById('searchBtn');
 
-// Список популярных игр для автоматического отображения на главной
-const POPULAR_GAMES = [
-    { id: 1091500, name: "Cyberpunk 2077" },
-    { id: 1245620, name: "Elden Ring" },
-    { id: 1086940, name: "Baldur's Gate 3" },
-    { id: 730, name: "Counter-Strike 2" }
-];
-
-// Запуск при загрузке страницы
+// Запуск при загрузке страницы — подтягиваем скидки автоматически
 window.addEventListener('DOMContentLoaded', () => {
-    loadFeaturedGames();
+    loadFeaturedSales();
 });
 
-// Смена региона обновляет цены
 regionSelect.addEventListener('change', () => {
-    loadFeaturedGames();
+    loadFeaturedSales();
 });
 
-// Поиск по кнопке или Enter
 searchBtn.addEventListener('click', executeSearch);
 searchInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') executeSearch();
 });
 
-async function loadFeaturedGames() {
-    gamesContainer.innerHTML = '<p class="status-text">Загрузка актуальных цен...</p>';
+// 1. Автоматическая загрузка актуальных скидок от Steam
+async function loadFeaturedSales() {
+    gamesContainer.innerHTML = '<p class="status-text">Загружаем крупные скидки...</p>';
     const region = regionSelect.value;
-    let htmlContent = '';
+    
+    try {
+        const url = `https://corsproxy.io/?https://store.steampowered.com/api/featuredcategories/?cc=${region}`;
+        const response = await fetch(url);
+        const data = await response.json();
 
-    for (const game of POPULAR_GAMES) {
-        const url = `https://corsproxy.io/?https://store.steampowered.com/api/appdetails?appids=${game.id}&cc=${region}&filters=price_overview`;
-        
-        try {
-            const response = await fetch(url);
-            const data = await response.json();
+        if (data && data.specials && data.specials.items) {
+            let htmlContent = '';
+            // Берем первые 10 игр со скидками
+            const items = data.specials.items.slice(0, 10);
 
-            if (data && data[game.id] && data[game.id].success) {
-                const priceData = data[game.id].data.price_overview;
-                const headerImage = `https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${game.id}/header.jpg`;
-                const storeUrl = `https://store.steampowered.com/app/${game.id}/?cc=${region}`;
+            for (const item of items) {
+                const appId = item.id;
+                const name = item.name;
+                const headerImage = item.header_image;
+                const storeUrl = `https://store.steampowered.com/app/${appId}/?cc=${region}`;
 
-                let priceHtml = 'Цена не найдена';
+                const finalPrice = (item.final_price / 100).toFixed(2);
+                const currency = item.currency || '';
+                const discount = item.discount_percent;
+
                 let discountBadge = '';
-
-                if (priceData) {
-                    const finalPrice = (priceData.final / 100).toFixed(2);
-                    const currency = priceData.currency;
-                    const discount = priceData.discount_percent;
-
-                    if (discount > 0) {
-                        discountBadge = `<div class="discount-badge">-${discount}%</div>`;
-                    }
-                    priceHtml = `${finalPrice} ${currency}`;
+                if (discount > 0) {
+                    discountBadge = `<div class="discount-badge">-${discount}%</div>`;
                 }
 
                 htmlContent += `
                     <div class="game-card">
                         ${discountBadge}
-                        <img src="${headerImage}" alt="${game.name}" class="game-banner" onerror="this.style.display='none'">
+                        <img src="${headerImage}" alt="${name}" class="game-banner" onerror="this.style.display='none'">
                         <div class="game-info">
-                            <div class="game-title">${game.name}</div>
+                            <div class="game-title">${name}</div>
                             <div class="game-details-row">
-                                <div class="final-price">${priceHtml}</div>
+                                <div class="final-price">${finalPrice} ${currency}</div>
                                 <a href="${storeUrl}" target="_blank" class="open-steam-btn">В Steam ↗</a>
                             </div>
                         </div>
                     </div>
                 `;
             }
-        } catch (err) {
-            console.error('Ошибка:', err);
+            gamesContainer.innerHTML = htmlContent || '<p class="status-text">Нет доступных скидок.</p>';
+        } else {
+            gamesContainer.innerHTML = '<p class="status-text">Не удалось загрузить ленту скидок.</p>';
         }
+    } catch (err) {
+        console.error('Ошибка:', err);
+        gamesContainer.innerHTML = '<p class="status-text" style="color: #ff6b6b;">Ошибка соединения со Steam.</p>';
     }
-
-    gamesContainer.innerHTML = htmlContent || '<p class="status-text">Не удалось загрузить игры.</p>';
 }
 
+// 2. Умный поиск по названию или AppID
 async function executeSearch() {
     const query = searchInput.value.trim();
     if (!query) return;
 
-    gamesContainer.innerHTML = '<p class="status-text">Поиск игры...</p>';
+    gamesContainer.innerHTML = '<p class="status-text">Ищем игру...</p>';
     const region = regionSelect.value;
-    const url = `https://corsproxy.io/?https://store.steampowered.com/api/appdetails?appids=${query}&cc=${region}&filters=price_overview,basic`;
 
     try {
-        const response = await fetch(url);
+        let appId = query;
+
+        // Если ввели текст, а не цифры, ищем AppID через бесплатный поиск Steam Store
+        if (isNaN(query)) {
+            const searchUrl = `https://corsproxy.io/?https://store.steampowered.com/api/storesearch/?term=${encodeURIComponent(query)}&l=russian&cc=${region}`;
+            const searchRes = await fetch(searchUrl);
+            const searchData = await searchRes.json();
+
+            if (searchData && searchData.items && searchData.items.length > 0) {
+                appId = searchData.items[0].id; // Берем первую найденную игру
+            } else {
+                gamesContainer.innerHTML = '<p class="status-text" style="color: #ff6b6b;">Игра по такому названию не найдена.</p>';
+                return;
+            }
+        }
+
+        // Запрашиваем детальную информацию и цену для найденного AppID
+        const detailsUrl = `https://corsproxy.io/?https://store.steampowered.com/api/appdetails?appids=${appId}&cc=${region}&filters=price_overview,basic`;
+        const response = await fetch(detailsUrl);
         const data = await response.json();
 
-        if (data && data[query] && data[query].success) {
-            const gameData = data[query].data;
+        if (data && data[appId] && data[appId].success) {
+            const gameData = data[appId].data;
             const priceData = gameData.price_overview;
-            const name = gameData.name || `Игра #${query}`;
-            const headerImage = `https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${query}/header.jpg`;
-            const storeUrl = `https://store.steampowered.com/app/${query}/?cc=${region}`;
+            const name = gameData.name || `Игра #${appId}`;
+            const headerImage = `https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${appId}/header.jpg`;
+            const storeUrl = `https://store.steampowered.com/app/${appId}/?cc=${region}`;
 
             let priceHtml = 'Бесплатно / Нет цены';
             let discountBadge = '';
@@ -147,9 +151,10 @@ async function executeSearch() {
                 </div>
             `;
         } else {
-            gamesContainer.innerHTML = '<p class="status-text" style="color: #ff6b6b;">Игра не найдена.</p>';
+            gamesContainer.innerHTML = '<p class="status-text" style="color: #ff6b6b;">Не удалось получить данные об игре.</p>';
         }
     } catch (error) {
-        gamesContainer.innerHTML = '<p class="status-text" style="color: #ff6b6b;">Ошибка соединения.</p>';
+        console.error(error);
+        gamesContainer.innerHTML = '<p class="status-text" style="color: #ff6b6b;">Ошибка запроса.</p>';
     }
 }
