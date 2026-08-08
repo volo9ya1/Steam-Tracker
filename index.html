@@ -3,23 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Steam Region Price Tracker</title>
+    <title>Steam Sale Tracker</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="container">
-        <h1>🎮 Steam Price Tracker</h1>
-        <p>Введите AppID игры (например, 1091500 для Cyberpunk 2077 или 730 для CS2), чтобы узнать цены по регионам.</p>
-        
-        <div class="search-box">
-            <input type="text" id="appIdInput" placeholder="Введите AppID...">
-            <button id="searchBtn">Проверить цены</button>
+    <div class="app-container">
+        <!-- Шапка -->
+        <header class="app-header">
+            <div class="logo-area">
+                <div class="logo-icon">🎮</div>
+                <div>
+                    <h1>Steam Sale Tracker</h1>
+                    <p>Умный радар крупных скидок</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Поиск -->
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Введите AppID или название игры...">
+            <button id="searchBtn">🔍</button>
         </div>
 
-        <div id="result" class="result-container">
-            <p class="placeholder-text">Результаты появятся здесь...</p>
-        </div>
+        <!-- Контент вкладок -->
+        <main class="content-area">
+            <!-- Вкладка: Главная -->
+            <section id="tab-home" class="tab-content active">
+                <div class="filters-scroll">
+                    <button class="filter-chip active" data-filter="top">🔥 Топ-100</button>
+                    <button class="filter-chip" data-filter="90">⚡ 90% и выше</button>
+                    <button class="filter-chip" data-filter="cheap">💵 До 10$</button>
+                </div>
+                
+                <div id="gamesContainer" class="games-grid">
+                    <!-- Сюда динамически загружаются карточки игр -->
+                    <p class="loading-text">Введите AppID игры выше для поиска цен...</p>
+                </div>
+            </section>
+
+            <!-- Вкладка: Избранное -->
+            <section id="tab-favorites" class="tab-content">
+                <h2>Избранное</h2>
+                <p class="placeholder-text">Здесь будут храниться ваши сохраненные игры.</p>
+                <div id="favoritesContainer" class="games-grid"></div>
+            </section>
+
+            <!-- Вкладка: Уведомления -->
+            <section id="tab-notifications" class="tab-content">
+                <h2>Уведомления</h2>
+                <div class="notification-card">
+                    <p><strong>Системное разрешение:</strong> Разрешено</p>
+                    <p class="notif-desc">Уведомления о снижении цен работают в фоновом режиме.</p>
+                </div>
+            </section>
+
+            <!-- Вкладка: Настройки -->
+            <section id="tab-settings" class="tab-content">
+                <h2>Настройки</h2>
+                <div class="settings-card">
+                    <label>Steam-регион по умолчанию:</label>
+                    <select id="regionSelect">
+                        <option value="uz">Узбекистан (UZ)</option>
+                        <option value="us">США (US)</option>
+                        <option value="kz">Казахстан (KZ)</option>
+                        <option value="tr">Турция (TR)</option>
+                        <option value="ru">Россия (RU)</option>
+                    </select>
+                </div>
+            </section>
+        </main>
+
+        <!-- Нижняя навигация (как в приложении) -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-tab="home">
+                <span class="nav-icon">🏠</span>
+                <span>Главная</span>
+            </button>
+            <button class="nav-item" data-tab="favorites">
+                <span class="nav-icon">❤️</span>
+                <span>Избранное</span>
+            </button>
+            <button class="nav-item" data-tab="notifications">
+                <span class="nav-icon">🔔</span>
+                <span>Уведомления</span>
+            </button>
+            <button class="nav-item" data-tab="settings">
+                <span class="nav-icon">⚙️</span>
+                <span>Настройки</span>
+            </button>
+        </nav>
     </div>
 
     <script src="script.js"></script>
