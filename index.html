@@ -3,92 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Steam Sale Tracker</title>
+    <title>Steam Store - Полная копия</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <div class="app-container">
-        <!-- Шапка -->
-        <header class="app-header">
-            <div class="logo-area">
-                <div class="logo-icon">🎮</div>
-                <div>
-                    <h1>Steam Sale Tracker</h1>
-                    <p>Радар скидок и цен</p>
-                </div>
+    <!-- Глобальная черная навигация (самый верх) -->
+    <div id="global-header">
+        <div class="content-wrapper global-header-content">
+            <div class="logo">
+                <img src="https://store.cloudflare.steamstatic.com/public/shared/images/header/logo_steam.svg?t=962016" alt="Steam Logo">
             </div>
-        </header>
-
-        <!-- Основная область с экранами (вкладками) -->
-        <main class="content-area">
-            
-            <!-- Экран 1: Главная -->
-            <section id="tab-home" class="tab-pane active">
-                <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="Поиск игры по названию или ID...">
-                    <button id="searchBtn">🔍</button>
-                </div>
-                <h2>Популярные скидки</h2>
-                <div id="gamesContainer" class="games-grid">
-                    <p class="status-text">Загрузка данных...</p>
-                </div>
-            </section>
-
-            <!-- Экран 2: Избранное -->
-            <section id="tab-favorites" class="tab-pane">
-                <h2>Избранное</h2>
-                <p class="status-text">Здесь пока пусто. Добавляйте игры в избранное из поиска!</p>
-                <div id="favoritesContainer" class="games-grid"></div>
-            </section>
-
-            <!-- Экран 3: Уведомления -->
-            <section id="tab-notifications" class="tab-pane">
-                <h2>Уведомления</h2>
-                <div class="card-box">
-                    <p><strong>Фоновый мониторинг:</strong> Активен</p>
-                    <p class="card-desc">Мы сообщим, когда цены на избранные игры снизятся.</p>
-                </div>
-            </section>
-
-            <!-- Экран 4: Настройки -->
-            <section id="tab-settings" class="tab-pane">
-                <h2>Настройки</h2>
-                <div class="card-box">
-                    <label for="regionSelect">Регион Steam по умолчанию:</label>
-                    <select id="regionSelect">
-                        <option value="uz">Узбекистан (UZ)</option>
-                        <option value="us">США (US)</option>
-                        <option value="kz">Казахстан (KZ)</option>
-                        <option value="tr">Турция (TR)</option>
-                        <option value="ru">Россия (RU)</option>
-                    </select>
-                </div>
-            </section>
-
-        </main>
-
-        <!-- Нижняя навигация (как в приложении погоды) -->
-        <nav class="bottom-nav">
-            <button class="nav-btn active" data-target="tab-home">
-                <span class="nav-icon">🏠</span>
-                <span>Главная</span>
-            </button>
-            <button class="nav-btn" data-target="tab-favorites">
-                <span class="nav-icon">❤️</span>
-                <span>Избранное</span>
-            </button>
-            <button class="nav-btn" data-target="tab-notifications">
-                <span class="nav-icon">🔔</span>
-                <span>Уведомления</span>
-            </button>
-            <button class="nav-btn" data-target="tab-settings">
-                <span class="nav-icon">⚙️</span>
-                <span>Настройки</span>
-            </button>
-        </nav>
+            <nav class="super-nav">
+                <a href="#">МАГАЗИН</a>
+                <a href="#">СООБЩЕСТВО</a>
+                <a href="#">О НАС</a>
+                <a href="#">ПОДДЕРЖКА</a>
+            </nav>
+            <div class="global-actions">
+                <button class="install-steam-btn">Установить Steam</button>
+                <button id="loginBtn" class="login-btn">Войти</button>
+                <span class="language-selector">язык ▾</span>
+            </div>
+        </div>
     </div>
 
+    <!-- Основное меню магазина (синее) -->
+    <header id="store-header">
+        <div class="content-wrapper store-nav-content">
+            <nav class="store-nav-links">
+                <div class="dropdown">
+                    <button class="dropbtn">Ваш магазин ▾</button>
+                    <div class="dropdown-content">
+                        <a href="#">Главная</a>
+                        <a href="#">Рекомендации сообщества</a>
+                        <a href="#">Недавно просмотренные</a>
+                        <a href="#">Кураторы Steam</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn">Новое и интересное ▾</button>
+                    <div class="dropdown-content">
+                        <a href="#">Лидеры продаж</a>
+                        <a href="#">Новинки</a>
+                        <a href="#">Популярные будущие новинки</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn">Категории ▾</button>
+                    <div class="dropdown-content">
+                        <a href="#">Экшен</a>
+                        <a href="#">Ролевые (RPG)</a>
+                        <a href="#">Стратегии</a>
+                        <a href="#">Выживание</a>
+                    </div>
+                </div>
+                <button class="nav-btn plain">Магазин очков</button>
+                <button class="nav-btn plain">Новости</button>
+                <button class="nav-btn plain">Лаборатории</button>
+            </nav>
+            <div class="store-search-box">
+                <input type="text" id="globalSearch" placeholder="поиск">
+                <button id="submitSearch"><img src="https://store.cloudflare.steamstatic.com/public/images/v6/search_icon_btn.png" alt="Search"></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Основной контейнер с контентом -->
+    <div class="page-background">
+        <div class="content-wrapper main-layout">
+            
+            <!-- Левый сайдбар (как в Steam) -->
+            <aside class="left-sidebar">
+                <div class="sidebar-block">
+                    <img src="https://store.cloudflare.steamstatic.com/public/images/gift/steamcards_promo_02.png" alt="Gift Cards" class="gift-card-img">
+                    <a href="#">Подарочные карты Steam</a>
+                </div>
+                <div class="sidebar-block">
+                    <h4>ПРОСМОТР ПО КАТЕГОРИЯМ</h4>
+                    <ul class="sidebar-links">
+                        <li><a href="#">Лидеры продаж</a></li>
+                        <li><a href="#">Новинки</a></li>
+                        <li><a href="#">Скидки</a></li>
+                        <li><a href="#">Виртуальная реальность</a></li>
+                        <li><a href="#">Поддержка контроллеров</a></li>
+                    </ul>
+                </div>
+                <div class="sidebar-block">
+                    <h4>ЖАНРЫ</h4>
+                    <ul class="sidebar-links" id="genreList">
+                        <li><a href="#">Бесплатно</a></li>
+                        <li><a href="#">Ранний доступ</a></li>
+                        <li><a href="#">Экшен</a></li>
+                        <li><a href="#">Приключенческие</a></li>
+                        <li><a href="#">Казуальные</a></li>
+                        <li><a href="#">Инди</a></li>
+                        <li><a href="#">Многопользовательские</a></li>
+                        <li><a href="#">Гонки</a></li>
+                        <li><a href="#">Ролевые</a></li>
+                        <li><a href="#">Симуляторы</a></li>
+                        <li><a href="#">Спортивные</a></li>
+                        <li><a href="#">Стратегии</a></li>
+                    </ul>
+                </div>
+            </aside>
+
+            <!-- Правая основная часть -->
+            <main class="center-content">
+                
+                <!-- Карусель избранного / Фестивали -->
+                <section class="main-carousel">
+                    <h2>Избранное и рекомендуемое</h2>
+                    <div class="carousel-container" id="featuredCarousel">
+                        <!-- Здесь будут генерироваться огромные карточки через JS -->
+                        <div class="skeleton-loader-large"></div>
+                    </div>
+                </section>
+
+                <!-- Специальные предложения (сетка как на фото) -->
+                <section class="special-offers">
+                    <h2>Специальные предложения</h2>
+                    <div class="offers-grid" id="specialOffersGrid">
+                        <!-- Скелетоны для загрузки -->
+                        <div class="offer-card skeleton-loader"></div>
+                        <div class="offer-card skeleton-loader"></div>
+                        <div class="offer-card skeleton-loader"></div>
+                        <div class="offer-card skeleton-loader"></div>
+                    </div>
+                </section>
+
+                <!-- Блок с вкладками (Новинки, Лидеры продаж, Скидки) -->
+                <section class="tabbed-content">
+                    <div class="tabs-header">
+                        <button class="tab-trigger active" data-tab="tab-new">Популярные новинки</button>
+                        <button class="tab-trigger" data-tab="tab-top">Лидеры продаж</button>
+                        <button class="tab-trigger" data-tab="tab-upcoming">Популярные будущие новинки</button>
+                        <button class="tab-trigger" data-tab="tab-discounts">Скидки</button>
+                    </div>
+
+                    <div class="tab-body active" id="tab-new">
+                        <div class="list-view-container" id="newListContainer">
+                            <!-- Элементы списка генерируются через JS -->
+                            <p class="loading-text">Загрузка данных из API...</p>
+                        </div>
+                    </div>
+
+                    <div class="tab-body" id="tab-top">
+                        <div class="list-view-container" id="topListContainer"></div>
+                    </div>
+                    
+                    <div class="tab-body" id="tab-upcoming">
+                        <div class="list-view-container" id="upcomingListContainer"></div>
+                    </div>
+
+                    <div class="tab-body" id="tab-discounts">
+                        <div class="list-view-container" id="discountsListContainer"></div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Массивный футер -->
+    <footer id="global-footer">
+        <div class="content-wrapper footer-content">
+            <div class="footer-rule"></div>
+            <div class="footer-logos">
+                <img src="https://store.cloudflare.steamstatic.com/public/images/v6/logo_valve_footer.png" alt="Valve">
+                <img src="https://store.cloudflare.steamstatic.com/public/images/v6/logo_steam_footer.png" alt="Steam">
+            </div>
+            <div class="footer-text">
+                <p>© 2026 Valve Corporation. Все права защищены. Все торговые марки являются собственностью соответствующих владельцев в США и других странах.</p>
+                <p>НДС включен во все цены, где это применимо. 
+                   <a href="#">Политика конфиденциальности</a> | 
+                   <a href="#">Правовая информация</a> | 
+                   <a href="#">Соглашение подписчика Steam</a> | 
+                   <a href="#">Возвраты</a> | 
+                   <a href="#">Файлы cookie</a>
+                </p>
+            </div>
+            <div class="footer-rule"></div>
+            <div class="footer-links">
+                <a href="#">О Valve</a> | 
+                <a href="#">Вакансии</a> | 
+                <a href="#">Steamworks</a> | 
+                <a href="#">Дистрибуция Steam</a> | 
+                <a href="#">Служба поддержки</a> | 
+                <a href="#">Подарочные карты</a> | 
+                <a href="#"><img src="https://store.cloudflare.steamstatic.com/public/images/v6/ico_facebook.gif" alt="FB"> Facebook</a> | 
+                <a href="#"><img src="https://store.cloudflare.steamstatic.com/public/images/v6/ico_twitter.gif" alt="TW"> Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Модальное окно Корзины -->
+    <div id="cartModal" class="modal-overlay">
+        <div class="modal-box cart-modal">
+            <div class="modal-header">
+                <h2>Ваша корзина</h2>
+                <button class="close-modal">✖</button>
+            </div>
+            <div class="modal-body" id="cartItemsContainer">
+                <p>Ваша корзина пуста.</p>
+            </div>
+            <div class="modal-footer">
+                <div class="cart-total">Итого: <span id="cartTotalPrice">0.00 UZ</span></div>
+                <button class="checkout-btn">Купить для себя</button>
+                <button class="checkout-gift-btn">Купить в подарок</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно Авторизации -->
+    <div id="loginModal" class="modal-overlay">
+        <div class="modal-box login-modal">
+            <div class="modal-header">
+                <h2>Войти</h2>
+                <button class="close-modal">✖</button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <label>Имя аккаунта Steam</label>
+                    <input type="text" required>
+                    <label>Пароль</label>
+                    <input type="password" required>
+                    <button type="submit" class="submit-login">Войти</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Плавающая кнопка корзины (для вызова модалки) -->
+    <div id="floatingCartBtn">
+        🛒 <span id="floatingCartCount">0</span>
+    </div>
+
+    <!-- Подключение логики -->
     <script src="script.js"></script>
 </body>
 </html>
