@@ -2,102 +2,127 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Steam - Cyber Neon Edition</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Steam Sale Tracker</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Подключение иконок FontAwesome для примера -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Верхняя панель -->
-    <div id="global-header">
-        <div class="content-wrapper global-header-content">
-            <div class="logo">
-                <img src="https://store.cloudflare.steamstatic.com/public/shared/images/header/logo_steam.svg?t=962016" alt="Steam Logo">
+    <div class="app-container">
+        <!-- Шапка -->
+        <header class="app-header">
+            <div class="logo-icon">
+                <i class="fa-solid fa-user-ninja"></i>
             </div>
-            <nav class="super-nav">
-                <a href="#">МАГАЗИН</a>
-                <a href="#">СООБЩЕСТВО</a>
-                <a href="#">ПОДДЕРЖКА</a>
-            </nav>
-            <div class="global-actions">
-                <button>ВОЙТИ</button>
+            <div class="header-text">
+                <h1>Steam Sale Tracker</h1>
+                <p>Умный радар крупных скидок</p>
+            </div>
+        </header>
+
+        <!-- Поиск -->
+        <div class="search-bar">
+            <i class="fa-solid fa-search search-icon"></i>
+            <input type="text" value="fall" placeholder="Поиск игр...">
+            <i class="fa-solid fa-xmark clear-icon"></i>
+            <button class="filter-btn">
+                <i class="fa-solid fa-sliders"></i>
+                <span class="badge">1</span>
+            </button>
+        </div>
+
+        <!-- Блок статуса -->
+        <div class="card status-card">
+            <div class="status-info">
+                <p><i class="fa-regular fa-clock"></i> Обновлено 08.08.2026, 16:36</p>
+                <p class="highlight"><i class="fa-solid fa-gamepad"></i> Найдено 3 игр</p>
+                <p class="bold-text">Данные Steam обновлены</p>
+            </div>
+            <div class="status-actions">
+                <div class="online-badge"><span class="dot"></span> 1 онлайн</div>
+                <button class="check-btn"><i class="fa-solid fa-check"></i></button>
             </div>
         </div>
-    </div>
 
-    <!-- Вторая панель -->
-    <header id="store-header">
-        <div class="content-wrapper store-nav-content">
-            <nav class="store-nav-links">
-                <button class="nav-btn plain">Ваш магазин</button>
-                <button class="nav-btn plain">Новинки</button>
-                <button class="nav-btn plain">Категории</button>
-            </nav>
-            <div class="store-search-box">
-                <input type="text" id="globalSearch" placeholder="поиск игр...">
-                <button id="submitSearch">🔍</button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Основной контент -->
-    <div class="page-background">
-        <div class="content-wrapper main-layout">
-            
-            <!-- Сайдбар -->
-            <aside class="left-sidebar">
-                <div class="sidebar-block">
-                    <h4>КАТЕГОРИИ</h4>
-                    <ul class="sidebar-links">
-                        <li><a href="#">Лидеры продаж</a></li>
-                        <li><a href="#">Скидки дня</a></li>
-                        <li><a href="#">Ранний доступ</a></li>
-                    </ul>
+        <!-- Промо-баннер -->
+        <div class="promo-banner">
+            <div class="promo-content">
+                <div class="promo-image"></div>
+                <div class="promo-text">
+                    <h3>Вступайте в <span>NITOKIN</span></h3>
+                    <p><strong>90 000+</strong> подписчиков в Telegram</p>
+                    <span>Общение, новости и тесты приложения</span>
                 </div>
-                <div class="sidebar-block">
-                    <h4>ЖАНРЫ</h4>
-                    <ul class="sidebar-links">
-                        <li><a href="#">Экшен</a></li>
-                        <li><a href="#">Киберпанк</a></li>
-                        <li><a href="#">Выживание</a></li>
-                        <li><a href="#">Стратегии</a></li>
-                    </ul>
-                </div>
-            </aside>
-
-            <!-- Все скидки Steam -->
-            <main class="center-content">
-                <section>
-                    <h2>Все специальные предложения и скидки Steam</h2>
-                    <div class="offers-grid" id="specialOffersGrid">
-                        <!-- Скрипт заполнит этот блок всеми скидками -->
-                    </div>
-                </section>
-            </main>
+            </div>
+            <button class="tg-btn"><i class="fa-regular fa-paper-plane"></i></button>
         </div>
-    </div>
 
-    <!-- Модальное окно корзины -->
-    <div id="cartModal" class="modal-overlay">
-        <div class="modal-box">
-            <div class="modal-header">
-                <h3 style="color:var(--neon-orange);">Корзина</h3>
-                <button class="close-modal">✖</button>
+        <!-- Фильтры (скролл по горизонтали) -->
+        <div class="filters-scroll">
+            <button class="filter-pill active"><i class="fa-solid fa-trophy"></i> Топ-100</button>
+            <button class="filter-pill"><i class="fa-solid fa-percent"></i> 90% и выше</button>
+            <button class="filter-pill"><i class="fa-solid fa-money-bill"></i> До 3 000 ₸</button>
+            <button class="filter-pill"><i class="fa-regular fa-star"></i> Лучшие</button>
+        </div>
+
+        <!-- Сортировка и вид -->
+        <div class="sort-controls">
+            <div class="sort-dropdown">
+                <i class="fa-solid fa-arrow-down-up-across-line"></i>
+                <span>Сортировка:</span>
+                <select>
+                    <option>По популярности (Топ)</option>
+                    <option>По скидке</option>
+                </select>
             </div>
-            <div id="cartItemsContainer" style="max-height: 50vh; overflow-y: auto;">
-                <p style="color:#777; text-align:center;">Корзина пуста</p>
-            </div>
-            <div style="border-top: 1px solid #333; margin-top: 15px; padding-top: 15px; display:flex; justify-content:space-between; align-items:center;">
-                <span style="color:#fff; font-weight:bold;">Итого: <span id="cartTotalPrice" style="color:var(--neon-yellow);">0.00 UZ</span></span>
-                <button style="background:var(--neon-orange); border:none; padding:8px 16px; font-weight:bold; cursor:pointer; border-radius:3px;">Оплатить</button>
+            <div class="currency-dropdown">
+                <select>
+                    <option>KZT ₸</option>
+                    <option>USD $</option>
+                </select>
             </div>
         </div>
+
+        <div class="view-controls">
+            <p>Показано: <strong>3</strong> игр</p>
+            <div class="view-toggles">
+                <button class="view-btn active"><i class="fa-solid fa-list"></i></button>
+                <button class="view-btn"><i class="fa-solid fa-border-all"></i></button>
+            </div>
+        </div>
+
+        <!-- Карточка игры -->
+        <div class="game-card">
+            <div class="rank-badge">#9</div>
+            <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1151340/header.jpg" alt="Fallout 76">
+            <button class="favorite-btn"><i class="fa-regular fa-heart"></i></button>
+        </div>
+        
+        <!-- Заглушка для скролла -->
+        <div style="height: 100px;"></div>
     </div>
 
-    <!-- Кнопка корзины -->
-    <div id="floatingCartBtn">
-        🛒 <span id="floatingCartCount">0</span>
-    </div>
-
-    <script src="script.js"></script>
+    <!-- Нижняя панель навигации -->
+    <nav class="bottom-nav">
+        <a href="#" class="nav-item">
+            <i class="fa-solid fa-house"></i>
+            <span>Главная</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fa-regular fa-heart"></i>
+            <span class="nav-badge">5</span>
+            <span>Избранное</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fa-regular fa-bell"></i>
+            <span class="nav-badge">2</span>
+            <span>Уведомления</span>
+        </a>
+        <a href="#" class="nav-item active">
+            <i class="fa-solid fa-gear"></i>
+            <span>Настройки</span>
+        </a>
+    </nav>
 </body>
 </html>
