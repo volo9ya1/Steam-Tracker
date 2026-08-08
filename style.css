@@ -1,18 +1,17 @@
 /* ==========================================================================
-   STEAM STORE - CSS 
+   CYBERPUNK NEON ORANGE - STEAM THEME
    ========================================================================== */
 
-/* --- 1. Глобальные переменные и сброс --- */
 :root {
-    --steam-bg-dark: #171a21;
-    --steam-bg-main: #1b2838;
-    --steam-bg-panel: #2a475e;
-    --steam-blue: #66c0f4;
-    --steam-green: #a4d007;
-    --steam-text-main: #c7d5e0;
-    --steam-text-title: #ffffff;
-    --steam-text-muted: #8f98a0;
-    --transition-fast: 0.2s ease;
+    --bg-deep: #0a0a0c;
+    --bg-panel: #141418;
+    --bg-card: #1c1c24;
+    --neon-orange: #ff6600;
+    --neon-orange-glow: rgba(255, 102, 0, 0.4);
+    --neon-yellow: #ffb700;
+    --text-main: #f0f0f5;
+    --text-muted: #9999a6;
+    --border-neon: #ff660055;
 }
 
 * {
@@ -22,218 +21,154 @@
 }
 
 body {
-    background-color: var(--steam-bg-main);
-    color: var(--steam-text-main);
-    font-family: "Motiva Sans", "Segoe UI", Arial, sans-serif;
+    background-color: var(--bg-deep);
+    color: var(--text-main);
+    font-family: "Segoe UI", Arial, sans-serif;
     font-size: 14px;
-    line-height: 1.5;
 }
 
 a {
     text-decoration: none;
-    color: var(--steam-text-main);
-    transition: color var(--transition-fast);
-}
-
-a:hover {
-    color: var(--steam-text-title);
+    color: var(--text-main);
 }
 
 .content-wrapper {
-    max-width: 940px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 15px;
+    padding: 0 20px;
     width: 100%;
 }
 
-/* --- 2. Глобальная навигация (Черная полоса) --- */
+/* Шапка */
 #global-header {
-    background-color: var(--steam-bg-dark);
-    height: 104px;
+    background-color: #000;
+    height: 70px;
     display: flex;
     align-items: center;
+    border-bottom: 2px solid var(--neon-orange);
+    box-shadow: 0 0 15px var(--neon-orange-glow);
 }
 
 .global-header-content {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
-    height: 100%;
-    padding-top: 30px;
 }
 
 .logo img {
-    height: 44px;
-    cursor: pointer;
+    height: 36px;
+    filter: drop-shadow(0 0 5px var(--neon-orange));
 }
 
 .super-nav {
     display: flex;
     gap: 20px;
-    margin-left: 40px;
-    flex: 1;
 }
 
 .super-nav a {
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 14px;
-    color: #b8b6b4;
+    font-weight: bold;
+    color: var(--text-muted);
 }
 
 .super-nav a:hover {
-    color: var(--steam-text-title);
+    color: var(--neon-orange);
+    text-shadow: 0 0 8px var(--neon-orange);
 }
 
-.global-actions {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.install-steam-btn {
-    background-color: #5c7e10;
-    color: #e5e4e2;
-    border: none;
-    padding: 6px 12px;
-    font-size: 11px;
-    text-transform: uppercase;
+.global-actions button {
+    background: var(--neon-orange);
+    color: #000;
     font-weight: bold;
-    cursor: pointer;
-    border-radius: 2px;
-}
-
-.install-steam-btn:hover {
-    background-color: #799905;
-    color: white;
-}
-
-.login-btn, .language-selector {
-    background: transparent;
     border: none;
-    color: #b8b6b4;
-    font-size: 11px;
-    text-transform: uppercase;
+    padding: 6px 14px;
     cursor: pointer;
+    border-radius: 4px;
+    box-shadow: 0 0 10px var(--neon-orange-glow);
 }
 
-.login-btn:hover, .language-selector:hover {
-    color: white;
-}
-
-/* --- 3. Основное меню магазина (Синяя полоса) --- */
+/* Магазин навигация */
 #store-header {
-    background: linear-gradient(90deg, rgba(35,84,124,1) 0%, rgba(27,40,56,1) 100%);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.4);
-    position: relative;
-    z-index: 100;
+    background: var(--bg-panel);
+    border-bottom: 1px solid #222;
 }
 
 .store-nav-content {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 60px;
+    height: 50px;
 }
 
 .store-nav-links {
     display: flex;
-    align-items: center;
-}
-
-.dropdown {
-    position: relative;
-    display: inline-block;
+    gap: 15px;
 }
 
 .dropbtn, .nav-btn.plain {
     background: transparent;
-    color: #e5e4e2;
-    padding: 10px 15px;
-    font-size: 13px;
+    color: var(--text-main);
     border: none;
     cursor: pointer;
-    font-weight: 500;
+    font-size: 13px;
 }
 
-.dropdown:hover .dropbtn, .nav-btn.plain:hover {
-    background: rgba(255,255,255,0.1);
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #3d4a5d;
-    min-width: 200px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.8);
-    z-index: 101;
-}
-
-.dropdown-content a {
-    color: var(--steam-text-title);
-    padding: 10px 15px;
-    display: block;
-    font-size: 12px;
-}
-
-.dropdown-content a:hover {
-    background-color: #dcdedf;
-    color: #1a222a;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
+.dropbtn:hover, .nav-btn.plain:hover {
+    color: var(--neon-orange);
 }
 
 .store-search-box {
     display: flex;
-    background: #316282;
-    border-radius: 3px;
-    padding: 2px;
-    align-items: center;
+    background: #000;
+    border: 1px solid var(--neon-orange);
+    border-radius: 4px;
+    padding: 3px;
+    box-shadow: 0 0 8px var(--neon-orange-glow);
 }
 
 .store-search-box input {
     background: transparent;
     border: none;
-    color: white;
-    padding: 5px 10px;
+    color: #fff;
+    padding: 4px 8px;
     outline: none;
-    width: 180px;
 }
 
 .store-search-box button {
-    background: var(--steam-blue);
+    background: var(--neon-orange);
     border: none;
     padding: 4px 10px;
-    border-radius: 2px;
     cursor: pointer;
+    font-weight: bold;
 }
 
-/* --- 4. Основной макет и Сайдбар --- */
+/* Макет */
 .page-background {
-    background: url('https://store.cloudflare.steamstatic.com/public/images/v6/home/bg_page_spotlight.jpg') center top no-repeat;
-    padding-top: 30px;
-    min-height: 100vh;
+    padding: 30px 0;
 }
 
 .main-layout {
     display: grid;
-    grid-template-columns: 210px 1fr;
+    grid-template-columns: 220px 1fr;
     gap: 30px;
 }
 
 .left-sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
+    background: var(--bg-panel);
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px solid #222;
+}
+
+.sidebar-block {
+    margin-bottom: 25px;
 }
 
 .sidebar-block h4 {
+    color: var(--neon-orange);
     font-size: 11px;
-    color: #536f86;
     text-transform: uppercase;
     margin-bottom: 10px;
+    letter-spacing: 1px;
 }
 
 .sidebar-links {
@@ -243,200 +178,173 @@ a:hover {
 .sidebar-links li a {
     display: block;
     font-size: 13px;
-    color: var(--steam-blue);
-    padding: 3px 0;
+    color: var(--text-muted);
+    padding: 4px 0;
 }
 
 .sidebar-links li a:hover {
-    color: var(--steam-text-title);
+    color: var(--neon-orange);
+    padding-left: 5px;
+    transition: 0.2s;
 }
 
-/* --- 5. Центральный контент --- */
-.center-content {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-}
-
-section h2 {
-    font-size: 14px;
-    color: var(--steam-text-title);
+/* Сетка скидок */
+.center-content h2 {
+    color: var(--neon-orange);
+    font-size: 16px;
     text-transform: uppercase;
-    margin-bottom: 10px;
-    letter-spacing: 1px;
-    font-weight: 500;
-}
-
-/* Скелетоны для загрузки */
-.skeleton-loader-large {
-    width: 100%;
-    height: 350px;
-    background: linear-gradient(90deg, #1f2d3d 25%, #2a3f54 50%, #1f2d3d 75%);
-    background-size: 200% 100%;
-    animation: shimmer 2s infinite;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    margin-bottom: 15px;
+    border-left: 4px solid var(--neon-orange);
+    padding-left: 10px;
+    text-shadow: 0 0 10px var(--neon-orange-glow);
 }
 
 .offers-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
 }
 
-.offer-card {
-    height: 300px;
-    background: linear-gradient(90deg, #1f2d3d 25%, #2a3f54 50%, #1f2d3d 75%);
-    background-size: 200% 100%;
-    animation: shimmer 2s infinite;
-    border-radius: 4px;
-}
-
-/* --- 6. Вкладки (Tabs) --- */
-.tabbed-content {
-    background: var(--steam-bg-dark);
-    padding: 2px;
-}
-
-.tabs-header {
-    display: flex;
-    background: var(--steam-bg-main);
-}
-
-.tab-trigger {
-    background: transparent;
-    border: none;
-    color: var(--steam-blue);
-    padding: 10px 15px;
-    cursor: pointer;
-    font-size: 13px;
-    flex: 1;
-    text-align: center;
-}
-
-.tab-trigger:hover {
-    color: var(--steam-text-title);
-}
-
-.tab-trigger.active {
-    background: var(--steam-bg-panel);
-    color: var(--steam-text-title);
-}
-
-.tab-body {
-    display: none;
-    padding: 10px;
-    background: var(--steam-bg-panel);
-}
-
-.tab-body.active {
-    display: block;
-}
-
-.list-view-container {
+.neon-game-card {
+    background: var(--bg-card);
+    border: 1px solid #2a2a36;
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    transition: 0.3s;
     display: flex;
     flex-direction: column;
-    gap: 5px;
-}
-
-.loading-text {
-    text-align: center;
-    padding: 20px;
-    color: var(--steam-text-muted);
-}
-
-/* --- 7. Модальные окна и Корзина --- */
-.modal-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    backdrop-filter: blur(4px);
-}
-
-.modal-box {
-    background: linear-gradient(to bottom, #2a475e 0%, #1b2838 100%);
-    width: 90%;
-    max-width: 600px;
-    border: 1px solid #417a9b;
-    border-radius: 4px;
-    box-shadow: 0 8px 24px rgba(0,0,0,0.7);
-}
-
-.modal-header {
-    background: rgba(0,0,0,0.3);
-    padding: 15px 20px;
-    display: flex;
     justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #101519;
 }
 
-.modal-header h2 {
-    margin: 0;
-    font-size: 18px;
+.neon-game-card:hover {
+    border-color: var(--neon-orange);
+    box-shadow: 0 0 15px var(--neon-orange-glow);
+    transform: translateY(-3px);
 }
 
-.close-modal {
-    background: transparent;
-    border: none;
+.neon-game-card img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    justify-content: space-between;
+}
+
+.game-title-neon {
+    font-weight: bold;
+    font-size: 14px;
     color: #fff;
-    font-size: 20px;
-    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.modal-body {
-    padding: 20px;
-    max-height: 60vh;
-    overflow-y: auto;
-}
-
-.modal-footer {
-    padding: 15px 20px;
-    background: rgba(0,0,0,0.3);
-    border-top: 1px solid #101519;
+.price-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-/* Плавающая кнопка корзины */
+.discount-tag {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--neon-orange);
+    color: #000;
+    font-weight: 900;
+    padding: 3px 6px;
+    font-size: 12px;
+    border-radius: 3px;
+    box-shadow: 0 0 8px var(--neon-orange);
+}
+
+.price-neon {
+    color: var(--neon-yellow);
+    font-weight: bold;
+}
+
+.add-to-cart-neon {
+    background: transparent;
+    border: 1px solid var(--neon-orange);
+    color: var(--neon-orange);
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.add-to-cart-neon:hover {
+    background: var(--neon-orange);
+    color: #000;
+    box-shadow: 0 0 10px var(--neon-orange);
+}
+
+/* Корзина плавающая */
 #floatingCartBtn {
     position: fixed;
     bottom: 30px;
     right: 30px;
-    background: #5c7e10;
-    color: white;
+    background: var(--neon-orange);
+    color: #000;
     padding: 15px 25px;
     border-radius: 30px;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(92, 126, 16, 0.6);
-    z-index: 9000;
+    box-shadow: 0 0 20px var(--neon-orange);
+    z-index: 999;
 }
 
-#floatingCartBtn:hover {
-    background: #799905;
+/* Модалки */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.85);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
 }
 
-/* --- 8. Анимации --- */
-@keyframes shimmer {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
+.modal-box {
+    background: var(--bg-panel);
+    border: 1px solid var(--neon-orange);
+    width: 500px;
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 0 0 25px var(--neon-orange-glow);
 }
 
-/* --- 9. Адаптивность --- */
-@media (max-width: 768px) {
-    .main-layout {
-        grid-template-columns: 1fr;
-    }
-    .left-sidebar, .super-nav {
-        display: none;
-    }
-    .offers-grid {
-        grid-template-columns: 1fr;
-    }
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.close-modal:hover { color: var(--neon-orange); }
+
+@media(max-width: 900px) {
+    .offers-grid { grid-template-columns: 1fr; }
+    .main-layout { grid-template-columns: 1fr; }
+    .left-sidebar { display: none; }
 }
