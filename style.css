@@ -1,5 +1,5 @@
 /* ==========================================================================
-   STEAM STORE - MASTER STYLESHEET (MAX EXTENDED)
+   STEAM STORE - CSS 
    ========================================================================== */
 
 /* --- 1. Глобальные переменные и сброс --- */
@@ -7,20 +7,12 @@
     --steam-bg-dark: #171a21;
     --steam-bg-main: #1b2838;
     --steam-bg-panel: #2a475e;
-    --steam-bg-light: #304e69;
     --steam-blue: #66c0f4;
-    --steam-blue-hover: #417a9b;
     --steam-green: #a4d007;
-    --steam-green-hover: #8fb506;
     --steam-text-main: #c7d5e0;
-    --steam-text-muted: #8f98a0;
     --steam-text-title: #ffffff;
-    --border-color: #101519;
+    --steam-text-muted: #8f98a0;
     --transition-fast: 0.2s ease;
-    --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --font-main: "Motiva Sans", "Segoe UI", Arial, Helvetica, sans-serif;
-    --shadow-main: 0 4px 12px rgba(0, 0, 0, 0.5);
-    --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.7);
 }
 
 * {
@@ -32,10 +24,9 @@
 body {
     background-color: var(--steam-bg-main);
     color: var(--steam-text-main);
-    font-family: var(--font-main);
+    font-family: "Motiva Sans", "Segoe UI", Arial, sans-serif;
     font-size: 14px;
     line-height: 1.5;
-    overflow-x: hidden;
 }
 
 a {
@@ -55,7 +46,7 @@ a:hover {
     width: 100%;
 }
 
-/* --- 2. Глобальная черная навигация --- */
+/* --- 2. Глобальная навигация (Черная полоса) --- */
 #global-header {
     background-color: var(--steam-bg-dark);
     height: 104px;
@@ -87,7 +78,6 @@ a:hover {
     text-transform: uppercase;
     font-weight: 700;
     font-size: 14px;
-    letter-spacing: 1px;
     color: #b8b6b4;
 }
 
@@ -110,9 +100,6 @@ a:hover {
     text-transform: uppercase;
     font-weight: bold;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 5px;
     border-radius: 2px;
 }
 
@@ -134,7 +121,7 @@ a:hover {
     color: white;
 }
 
-/* --- 3. Основное меню магазина --- */
+/* --- 3. Основное меню магазина (Синяя полоса) --- */
 #store-header {
     background: linear-gradient(90deg, rgba(35,84,124,1) 0%, rgba(27,40,56,1) 100%);
     box-shadow: 0 2px 4px rgba(0,0,0,0.4);
@@ -166,7 +153,6 @@ a:hover {
     font-size: 13px;
     border: none;
     cursor: pointer;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
     font-weight: 500;
 }
 
@@ -179,15 +165,13 @@ a:hover {
     position: absolute;
     background-color: #3d4a5d;
     min-width: 200px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.8);
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.8);
     z-index: 101;
-    border: 1px solid #1a222a;
 }
 
 .dropdown-content a {
     color: var(--steam-text-title);
     padding: 10px 15px;
-    text-decoration: none;
     display: block;
     font-size: 12px;
 }
@@ -207,7 +191,6 @@ a:hover {
     border-radius: 3px;
     padding: 2px;
     align-items: center;
-    border: 1px solid rgba(0,0,0,0.3);
 }
 
 .store-search-box input {
@@ -215,31 +198,19 @@ a:hover {
     border: none;
     color: white;
     padding: 5px 10px;
-    font-style: italic;
     outline: none;
     width: 180px;
 }
 
-.store-search-box input::placeholder {
-    color: #0e1c25;
-}
-
 .store-search-box button {
-    background: #66c0f4;
+    background: var(--steam-blue);
     border: none;
-    padding: 4px 6px;
+    padding: 4px 10px;
     border-radius: 2px;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
-.store-search-box button:hover {
-    background: white;
-}
-
-/* --- 4. Основной макет --- */
+/* --- 4. Основной макет и Сайдбар --- */
 .page-background {
     background: url('https://store.cloudflare.steamstatic.com/public/images/v6/home/bg_page_spotlight.jpg') center top no-repeat;
     padding-top: 30px;
@@ -252,7 +223,6 @@ a:hover {
     gap: 30px;
 }
 
-/* --- 5. Левый Сайдбар --- */
 .left-sidebar {
     display: flex;
     flex-direction: column;
@@ -281,13 +251,7 @@ a:hover {
     color: var(--steam-text-title);
 }
 
-.gift-card-img {
-    width: 100%;
-    margin-bottom: 10px;
-    border: 1px solid #1a222a;
-}
-
-/* --- 6. Центральный контент --- */
+/* --- 5. Центральный контент --- */
 .center-content {
     display: flex;
     flex-direction: column;
@@ -303,17 +267,16 @@ section h2 {
     font-weight: 500;
 }
 
-/* Карусель (Скелетоны) */
+/* Скелетоны для загрузки */
 .skeleton-loader-large {
     width: 100%;
     height: 350px;
     background: linear-gradient(90deg, #1f2d3d 25%, #2a3f54 50%, #1f2d3d 75%);
     background-size: 200% 100%;
     animation: shimmer 2s infinite;
-    box-shadow: var(--shadow-main);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 }
 
-/* Сетка специальных предложений */
 .offers-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -325,12 +288,10 @@ section h2 {
     background: linear-gradient(90deg, #1f2d3d 25%, #2a3f54 50%, #1f2d3d 75%);
     background-size: 200% 100%;
     animation: shimmer 2s infinite;
-    box-shadow: var(--shadow-main);
-    position: relative;
     border-radius: 4px;
 }
 
-/* Вкладки (Tabs) */
+/* --- 6. Вкладки (Tabs) --- */
 .tabbed-content {
     background: var(--steam-bg-dark);
     padding: 2px;
@@ -383,63 +344,7 @@ section h2 {
     color: var(--steam-text-muted);
 }
 
-/* --- 7. Массивный Футер --- */
-#global-footer {
-    background-color: var(--steam-bg-dark);
-    padding: 30px 0 60px 0;
-    margin-top: 80px;
-    border-top: 1px solid var(--border-color);
-}
-
-.footer-content {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.footer-rule {
-    height: 1px;
-    background-color: #363c44;
-}
-
-.footer-logos {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 0;
-}
-
-.footer-logos img {
-    height: 25px;
-    opacity: 0.7;
-}
-
-.footer-text p {
-    font-size: 12px;
-    color: var(--steam-text-muted);
-    margin-bottom: 5px;
-}
-
-.footer-text a {
-    color: var(--steam-text-title);
-}
-
-.footer-links {
-    font-size: 12px;
-    color: var(--steam-text-muted);
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.footer-links a {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-/* --- 8. Модальные окна и оверлеи --- */
+/* --- 7. Модальные окна и Корзина --- */
 .modal-overlay {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
@@ -457,8 +362,7 @@ section h2 {
     max-width: 600px;
     border: 1px solid #417a9b;
     border-radius: 4px;
-    box-shadow: var(--shadow-hover);
-    animation: modalFadeIn 0.3s ease-out forwards;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.7);
 }
 
 .modal-header {
@@ -498,7 +402,7 @@ section h2 {
     align-items: center;
 }
 
-/* Плавающая корзина */
+/* Плавающая кнопка корзины */
 #floatingCartBtn {
     position: fixed;
     bottom: 30px;
@@ -512,65 +416,27 @@ section h2 {
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(92, 126, 16, 0.6);
     z-index: 9000;
-    transition: transform var(--transition-fast);
 }
 
 #floatingCartBtn:hover {
-    transform: scale(1.05);
     background: #799905;
 }
 
-/* Форма входа */
-#loginForm {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-#loginForm input {
-    background: #171a21;
-    border: 1px solid #000;
-    padding: 10px;
-    color: white;
-    border-radius: 3px;
-}
-
-.submit-login {
-    background: linear-gradient(to right, #47bfff 0%, #1a44c2 60%);
-    background-position: 25%;
-    background-size: 330% 100%;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-top: 10px;
-}
-
-/* --- 9. Анимации --- */
+/* --- 8. Анимации --- */
 @keyframes shimmer {
     0% { background-position: 200% 0; }
     100% { background-position: -200% 0; }
 }
 
-@keyframes modalFadeIn {
-    from { opacity: 0; transform: translateY(-20px) scale(0.95); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-/* --- 10. Адаптивность (Media Queries) --- */
+/* --- 9. Адаптивность --- */
 @media (max-width: 768px) {
     .main-layout {
         grid-template-columns: 1fr;
     }
-    .left-sidebar {
+    .left-sidebar, .super-nav {
         display: none;
     }
     .offers-grid {
         grid-template-columns: 1fr;
-    }
-    .super-nav {
-        display: none;
     }
 }
