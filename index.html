@@ -3,126 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Steam Sale Tracker</title>
+    <title>Steam Sale Tracker - Neon Edition</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Подключение иконок FontAwesome для примера -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="app-container">
-        <!-- Шапка -->
-        <header class="app-header">
-            <div class="logo-icon">
-                <i class="fa-solid fa-user-ninja"></i>
-            </div>
-            <div class="header-text">
-                <h1>Steam Sale Tracker</h1>
-                <p>Умный радар крупных скидок</p>
-            </div>
-        </header>
-
-        <!-- Поиск -->
-        <div class="search-bar">
-            <i class="fa-solid fa-search search-icon"></i>
-            <input type="text" value="fall" placeholder="Поиск игр...">
-            <i class="fa-solid fa-xmark clear-icon"></i>
-            <button class="filter-btn">
-                <i class="fa-solid fa-sliders"></i>
-                <span class="badge">1</span>
-            </button>
-        </div>
-
-        <!-- Блок статуса -->
-        <div class="card status-card">
-            <div class="status-info">
-                <p><i class="fa-regular fa-clock"></i> Обновлено 08.08.2026, 16:36</p>
-                <p class="highlight"><i class="fa-solid fa-gamepad"></i> Найдено 3 игр</p>
-                <p class="bold-text">Данные Steam обновлены</p>
-            </div>
-            <div class="status-actions">
-                <div class="online-badge"><span class="dot"></span> 1 онлайн</div>
-                <button class="check-btn"><i class="fa-solid fa-check"></i></button>
-            </div>
-        </div>
-
-        <!-- Промо-баннер -->
-        <div class="promo-banner">
-            <div class="promo-content">
-                <div class="promo-image"></div>
-                <div class="promo-text">
-                    <h3>Вступайте в <span>NITOKIN</span></h3>
-                    <p><strong>90 000+</strong> подписчиков в Telegram</p>
-                    <span>Общение, новости и тесты приложения</span>
-                </div>
-            </div>
-            <button class="tg-btn"><i class="fa-regular fa-paper-plane"></i></button>
-        </div>
-
-        <!-- Фильтры (скролл по горизонтали) -->
-        <div class="filters-scroll">
-            <button class="filter-pill active"><i class="fa-solid fa-trophy"></i> Топ-100</button>
-            <button class="filter-pill"><i class="fa-solid fa-percent"></i> 90% и выше</button>
-            <button class="filter-pill"><i class="fa-solid fa-money-bill"></i> До 3 000 ₸</button>
-            <button class="filter-pill"><i class="fa-regular fa-star"></i> Лучшие</button>
-        </div>
-
-        <!-- Сортировка и вид -->
-        <div class="sort-controls">
-            <div class="sort-dropdown">
-                <i class="fa-solid fa-arrow-down-up-across-line"></i>
-                <span>Сортировка:</span>
-                <select>
-                    <option>По популярности (Топ)</option>
-                    <option>По скидке</option>
-                </select>
-            </div>
-            <div class="currency-dropdown">
-                <select>
-                    <option>KZT ₸</option>
-                    <option>USD $</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="view-controls">
-            <p>Показано: <strong>3</strong> игр</p>
-            <div class="view-toggles">
-                <button class="view-btn active"><i class="fa-solid fa-list"></i></button>
-                <button class="view-btn"><i class="fa-solid fa-border-all"></i></button>
-            </div>
-        </div>
-
-        <!-- Карточка игры -->
-        <div class="game-card">
-            <div class="rank-badge">#9</div>
-            <img src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1151340/header.jpg" alt="Fallout 76">
-            <button class="favorite-btn"><i class="fa-regular fa-heart"></i></button>
-        </div>
         
-        <!-- Заглушка для скролла -->
-        <div style="height: 100px;"></div>
+        <!-- ЭКРАН 1: ГЛАВНАЯ (СПИСОК ВСЕХ СКИДОК) -->
+        <div id="screen-home" class="app-screen">
+            <header class="app-header">
+                <div class="logo-icon"><i class="fa-solid fa-gamepad"></i></div>
+                <div class="header-text">
+                    <h1>Steam Sale Tracker</h1>
+                    <p>Неоновый радар скидок Steam</p>
+                </div>
+            </header>
+
+            <!-- Поиск -->
+            <div class="search-bar">
+                <i class="fa-solid fa-search search-icon"></i>
+                <input type="text" id="searchInput" placeholder="Поиск среди всех скидок...">
+                <i class="fa-solid fa-xmark clear-icon" id="clearSearch"></i>
+            </div>
+
+            <!-- Фильтры-пилюли -->
+            <div class="filters-scroll">
+                <button class="filter-pill active" data-filter="all"><i class="fa-solid fa-fire"></i> Все скидки</button>
+                <button class="filter-pill" data-filter="90"><i class="fa-solid fa-percent"></i> 90% и выше</button>
+                <button class="filter-pill" data-filter="free"><i class="fa-solid fa-gift"></i> Бесплатные</button>
+            </div>
+
+            <!-- Счётчик найденного -->
+            <div class="view-controls">
+                <p>Загружено игр со скидкой: <strong id="gamesCount">0</strong></p>
+            </div>
+
+            <!-- Сетка игр (сюда скрипт выгрузит ВСЕ скидки) -->
+            <div class="offers-grid" id="allOffersGrid">
+                <p style="color: var(--neon-orange); text-align: center; grid-column: 1/-1; padding: 40px;">Загрузка скидок из Steam...</p>
+            </div>
+        </div>
+
+        <!-- ЭКРАН 2: НАСТРОЙКИ -->
+        <div id="screen-settings" class="app-screen" style="display: none;">
+            <header class="app-header">
+                <div class="logo-icon"><i class="fa-solid fa-gear"></i></div>
+                <div class="header-text">
+                    <h1>Настройки</h1>
+                    <p>Параметры приложения</p>
+                </div>
+            </header>
+
+            <div class="card">
+                <h3>Регион и оформление</h3>
+                <p style="color: var(--text-secondary); margin-top: 10px; font-size: 13px;">Текущая тема: Черно-оранжевый неон. Все цены автоматически конвертируются под выбранный регион Steam.</p>
+            </div>
+        </div>
+
+        <!-- Дополнительные пустые экраны для нижнего меню -->
+        <div id="screen-favorites" class="app-screen" style="display: none;">
+            <header class="app-header"><h1>Избранное</h1></header>
+            <p style="color: var(--text-secondary);">Здесь будут сохраненные игры.</p>
+        </div>
+
+        <div id="screen-notifications" class="app-screen" style="display: none;">
+            <header class="app-header"><h1>Уведомления</h1></header>
+            <p style="color: var(--text-secondary);">Нет новых уведомлений.</p>
+        </div>
+
+        <div style="height: 80px;"></div>
     </div>
 
     <!-- Нижняя панель навигации -->
     <nav class="bottom-nav">
-        <a href="#" class="nav-item">
+        <a href="#" class="nav-item active" data-target="screen-home">
             <i class="fa-solid fa-house"></i>
             <span>Главная</span>
         </a>
-        <a href="#" class="nav-item">
+        <a href="#" class="nav-item" data-target="screen-favorites">
             <i class="fa-regular fa-heart"></i>
-            <span class="nav-badge">5</span>
             <span>Избранное</span>
         </a>
-        <a href="#" class="nav-item">
+        <a href="#" class="nav-item" data-target="screen-notifications">
             <i class="fa-regular fa-bell"></i>
-            <span class="nav-badge">2</span>
             <span>Уведомления</span>
         </a>
-        <a href="#" class="nav-item active">
+        <a href="#" class="nav-item" data-target="screen-settings">
             <i class="fa-solid fa-gear"></i>
             <span>Настройки</span>
         </a>
     </nav>
+
+    <script src="script.js"></script>
 </body>
 </html>
