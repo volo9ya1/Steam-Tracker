@@ -18,7 +18,7 @@ body {
     width: 100%;
     max-width: 480px;
     height: 100vh;
-    max-height: 900px;
+    max-height: 850px;
     background: #171a21;
     display: flex;
     flex-direction: column;
@@ -41,6 +41,7 @@ body {
     padding: 15px;
     display: flex;
     align-items: center;
+    flex-shrink: 0;
 }
 
 .logo-area {
@@ -57,7 +58,7 @@ body {
 }
 
 .app-header h1 {
-    font-size: 18px;
+    font-size: 16px;
     color: #fff;
 }
 
@@ -66,79 +67,61 @@ body {
     color: #8f98a0;
 }
 
-/* Поиск */
-.search-bar {
-    padding: 12px 15px;
-    background: #1b2838;
-    display: flex;
-    gap: 8px;
+/* Область контента (экраны) */
+.content-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+    position: relative;
 }
 
-.search-bar input {
+/* По умолчанию ВСЕ экраны скрыты */
+.tab-pane {
+    display: none;
+}
+
+/* Активный экран показывается */
+.tab-pane.active {
+    display: block;
+}
+
+h2 {
+    color: #fff;
+    margin-bottom: 12px;
+    font-size: 18px;
+}
+
+/* Поиск */
+.search-box {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.search-box input {
     flex: 1;
     background: #2a475e;
     border: none;
-    padding: 10px 14px;
+    padding: 10px 12px;
     border-radius: 6px;
     color: white;
     font-size: 14px;
 }
 
-.search-bar input:focus {
+.search-box input:focus {
     outline: 1px solid #66c0f4;
 }
 
-.search-bar button {
+.search-box button {
     background: #66c0f4;
     border: none;
-    padding: 0 15px;
+    padding: 0 14px;
     border-radius: 6px;
     cursor: pointer;
     font-size: 16px;
 }
 
-/* Контент */
-.content-area {
-    flex: 1;
-    overflow-y: auto;
-    padding: 15px;
-}
-
-.tab-content {
-    display: none;
-}
-
-.tab-content.active {
-    display: block;
-}
-
-/* Чипсы фильтров */
-.filters-scroll {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    margin-bottom: 15px;
-    padding-bottom: 5px;
-}
-
-.filter-chip {
-    background: #2a475e;
-    border: none;
-    color: #c7d5e0;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 13px;
-    cursor: pointer;
-    white-space: nowrap;
-}
-
-.filter-chip.active {
-    background: #66c0f4;
-    color: #171a21;
-    font-weight: bold;
-}
-
-/* Карточки игр (как в приложении) */
+/* Карточки игр */
 .game-card {
     background: #2a475e;
     border-radius: 8px;
@@ -150,7 +133,7 @@ body {
 
 .game-banner {
     width: 100%;
-    height: 140px;
+    height: 125px;
     object-fit: cover;
     background: #1b2838;
 }
@@ -164,7 +147,7 @@ body {
     font-weight: bold;
     padding: 4px 8px;
     border-radius: 4px;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .game-info {
@@ -172,21 +155,20 @@ body {
 }
 
 .game-title {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
     color: #fff;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 
 .game-details-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 10px;
 }
 
-.price-box .final-price {
-    font-size: 18px;
+.final-price {
+    font-size: 16px;
     font-weight: bold;
     color: #a4d007;
 }
@@ -195,13 +177,13 @@ body {
     background: linear-gradient(to right, #21445e, #1a9fff);
     color: white;
     text-decoration: none;
-    padding: 8px 14px;
+    padding: 6px 12px;
     border-radius: 6px;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: bold;
 }
 
-/* Нижнее меню */
+/* Нижнее меню навигации */
 .bottom-nav {
     height: 60px;
     background: #1b2838;
@@ -209,9 +191,10 @@ body {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    flex-shrink: 0;
 }
 
-.nav-item {
+.nav-btn {
     background: none;
     border: none;
     color: #8f98a0;
@@ -220,10 +203,11 @@ body {
     align-items: center;
     font-size: 11px;
     cursor: pointer;
-    gap: 2px;
+    gap: 3px;
+    flex: 1;
 }
 
-.nav-item.active {
+.nav-btn.active {
     color: #66c0f4;
 }
 
@@ -231,20 +215,19 @@ body {
     font-size: 18px;
 }
 
-.loading-text, .placeholder-text {
-    text-align: center;
+.status-text, .card-desc {
     color: #8f98a0;
-    margin-top: 30px;
+    font-size: 13px;
 }
 
-.settings-card, .notification-card {
+.card-box {
     background: #2a475e;
     padding: 15px;
     border-radius: 8px;
     margin-top: 10px;
 }
 
-.settings-card select {
+.card-box select {
     width: 100%;
     padding: 8px;
     margin-top: 8px;
