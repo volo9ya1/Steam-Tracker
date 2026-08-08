@@ -1,98 +1,87 @@
 const searchBtn = document.getElementById('searchBtn');
-const appIdInput = document.getElementById('appIdInput');
-const resultDiv = document.getElementById('result');
-const quickButtons = document.querySelectorAll('.quick-btn');
+const searchInput = document.getElementById('searchInput');
+const gamesContainer = document.getElementById('gamesContainer');
+const regionSelect = document.getElementById('regionSelect');
 
-// Список регионов для проверки
-const REGIONS = [
-    { code: 'uz', name: 'Узбекистан (UZ)' },
-    { code: 'us', name: 'США (US)' },
-    { code: 'kz', name: 'Казахстан (KZ)' },
-    { code: 'tr', name: 'Турция (TR)' },
-    { code: 'ua', name: 'Украина (UA)' },
-    { code: 'ar', name: 'Аргентина (AR)' }
-];
+// Переключение вкладок внизу
+const navItems = document.querySelectorAll('.nav-item');
+const tabContents = document.querySelectorAll('.tab-content');
 
-// Обработка кликов по быстрым кнопкам игр
-quickButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        appIdInput.value = btn.getAttribute('data-appid');
-        fetchPrices(appIdInput.value.trim());
+navItems.forEach(item => {
+    item.addEventListener('click', () => {
+        navItems.forEach(nav => nav.classList.remove('active'));
+        tabContents.forEach(tab => tab.classList.remove('active'));
+
+        item.classList.add('active');
+        const tabId = 'tab-' + item.getAttribute('data-tab');
+        document.getElementById(tabId).classList.add('active');
     });
 });
 
+// Поиск по клику или Enter
 searchBtn.addEventListener('click', () => {
-    const appId = appIdInput.value.trim();
-    if (!appId) {
-        resultDiv.innerHTML = '<p class="error-msg">Пожалуйста, введите AppID игры!</p>';
-        return;
-    }
-    fetchPrices(appId);
+    const query = searchInput.value.trim();
+    if (query) fetchGameData(query);
 });
 
-async function fetchPrices(appId) {
-    resultDiv.innerHTML = '<p class="placeholder-text">Загружаем актуальные цены из Steam...</p>';
-    let htmlContent = '';
+searchInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        const query = searchInput.value.trim();
+        if (query) fetchGameData(query);
+    }
+});
 
-    for (const reg of REGIONS) {
-        const url = `https://corsproxy.io/?https://store.steampowered.com/api/appdetails?appids=${appId}&cc=${reg.code}&filters=price_overview`;
-        
-        try {
-            const response = await fetch(url);
-            const data = await response.json();
+async function fetchGameData(appId) {
+    gamesContainer.innerHTML = '<p class="loading-text">Загрузка данных из Steam...</p>';
+    const region = regionSelect.value;
+    
+    // Запрос через CORS-прокси к Steam API
+    const url = `https://corsproxy.io/?https://store.steampowered.com/api/appdetails?appids=${appId}&cc=${region}&filters=price_overview,basic`;
 
-            if (data && data[appId] && data[appId].success) {
-                const priceData = data[appId].data.price_overview;
-                const storeUrl = `https://store.steampowered.com/app/${appId}/?cc=${reg.code}`;
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
 
-                if (priceData) {
-                    const finalPrice = (priceData.final / 100).toFixed(2);
-                    const currency = priceData.currency;
-                    const discount = priceData.discount_percent;
+        if (data && data[appId] && data[appId].success) {
+            const gameData = data[appId].data;
+            const priceData = gameData.price_overview;
+            const name = gameData.name || `Игра #${appId}`;
+            const headerImage = `https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/${appId}/header.jpg`;
+            const storeUrl = `https://store.steampowered.com/app/${appId}/?cc=${region}`;
 
-                    let discountHtml = discount > 0 ? `<span class="discount-badge">-${discount}%</span>` : '';
+            let priceHtml = 'Бесплатно / Нет цены';
+            let discountBadge = '';
 
-                    htmlContent += `
-                        <div class="region-card">
-                            <div class="region-info">
-                                <span class="region-title">${reg.name}</span>
-                                <span class="price">${finalPrice} ${currency} ${discountHtml}</span>
-                            </div>
-                            <a href="${storeUrl}" target="_blank" class="buy-btn">Купить</a>
-                        </div>
-                    `;
-                } else {
-                    htmlContent += `
-                        <div class="region-card">
-                            <div class="region-info">
-                                <span class="region-title">${reg.name}</span>
-                                <span class="price">Бесплатно или нет данных</span>
-                            </div>
-                            <a href="${storeUrl}" target="_blank" class="buy-btn">В Steam</a>
-                        </div>
-                    `;
+            if (priceData) {
+                const finalPrice = (priceData.final / 100).toFixed(2);
+                const currency = priceData.currency;
+                const discount = priceData.discount_percent;
+
+                if (discount > 0) {
+                    discountBadge = `<div class="discount-badge">-${discount}%</div>`;
                 }
-            } else {
-                htmlContent += `
-                    <div class="region-card">
-                        <div class="region-info">
-                            <span class="region-title">${reg.name}</span>
-                            <span class="price" style="color: #ff6b6b;">Игра недоступна в регионе</span>
-                        </div>
-                    </div>
-                `;
+                priceHtml = `${finalPrice} ${currency}`;
             }
-        } catch (error) {
-            htmlContent += `
-                <div class="region-card">
-                    <div class="region-info">
-                        <span class="region-title">${reg.name}</span>
-                        <span class="price" style="color: #ff6b6b;">Ошибка соединения</span>
+
+            gamesContainer.innerHTML = `
+                <div class="game-card">
+                    ${discountBadge}
+                    <img src="${headerImage}" alt="${name}" class="game-banner" onerror="this.style.display='none'">
+                    <div class="game-info">
+                        <div class="game-title">${name}</div>
+                        <div class="game-details-row">
+                            <div class="price-box">
+                                <div class="final-price">${priceHtml}</div>
+                            </div>
+                            <a href="${storeUrl}" target="_blank" class="open-steam-btn">Открыть в Steam ↗</a>
+                        </div>
                     </div>
                 </div>
             `;
+        } else {
+            gamesContainer.innerHTML = '<p class="loading-text" style="color: #ff6b6b;">Игра с таким AppID не найдена.</p>';
         }
+    } catch (error) {
+        gamesContainer.innerHTML = '<p class="loading-text" style="color: #ff6b6b;">Ошибка соединения с сервером.</p>';
     }
-
-    resultDiv.innerHTML = htmlContent;
 }
